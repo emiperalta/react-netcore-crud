@@ -1,0 +1,9 @@
+{
+  "short_name": "CRUD App",
+  "name": "CRUD Razor and .NET Core",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
