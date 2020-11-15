@@ -1,1 +1,1 @@
-# react-netcore-crud
+# CRUD with React and .NET Core
