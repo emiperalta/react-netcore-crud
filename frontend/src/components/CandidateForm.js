@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, TextField, withStyles, FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
+import { Grid, TextField, withStyles, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -28,6 +28,8 @@ const initialState = {
 
 const CandidateForm = ({ classes, ...props }) => {
     const [inputText, setInputText] = useState(initialState);
+    const [errors, setErrors] = useState({});
+
 
     const inputTextHandler = e => {
         setInputText({
@@ -38,12 +40,27 @@ const CandidateForm = ({ classes, ...props }) => {
 
     const submitHandler = e => {
         e.preventDefault();
-        console.log(inputText)
+        if (validate()) {
+            console.log('Success')
+        } else {
+            console.log('Error!')
+        }
     }
 
     const resetHandler = e => {
         e.preventDefault();
         setInputText(initialState);
+    }
+
+    const validate = () => { 
+        let temp = {};
+        temp.fullName = inputText.fullName ? '' : 'This field is required.';
+        temp.mobile = inputText.mobile ? '' : 'This field is required.';
+        temp.bloodGroup = inputText.bloodGroup ? '' : 'This field is required.';
+        temp.email = (/^$|.+@.+..+/).test(inputText.email) ? '' : 'Email is not valid';
+        setErrors({ ...temp });
+
+        return Object.values(temp).every(x => x === '');
     }
 
     return (
@@ -56,6 +73,7 @@ const CandidateForm = ({ classes, ...props }) => {
                         variant="outlined"
                         value={inputText.fullName}
                         onChange={inputTextHandler}
+                        {...(errors.fullName && { error: true, helperText: errors.fullName })}
                     />
                     <TextField
                         name="mobile"
@@ -63,6 +81,7 @@ const CandidateForm = ({ classes, ...props }) => {
                         variant="outlined"
                         value={inputText.mobile}
                         onChange={inputTextHandler}
+                        {...(errors.mobile && { error: true, helperText: errors.mobile })}
                     />
                     <TextField
                         name="email"
@@ -70,10 +89,15 @@ const CandidateForm = ({ classes, ...props }) => {
                         variant="outlined"
                         value={inputText.email}
                         onChange={inputTextHandler}
+                        {...(errors.email && { error: true, helperText: errors.email })}
                     />
                 </Grid>
                 <Grid item xs={6}>
-                    <FormControl variant="outlined" className={classes.formControl}>
+                    <FormControl 
+                        variant="outlined" 
+                        className={classes.formControl}
+                        {...(errors.bloodGroup && { error: true })}
+                    >
                         <InputLabel>Blood Group</InputLabel>
                         <Select
                             name="bloodGroup"
@@ -90,6 +114,7 @@ const CandidateForm = ({ classes, ...props }) => {
                             <MenuItem value="0+">0+</MenuItem>
                             <MenuItem value="0-">0-</MenuItem>
                         </Select>
+                        {{ error: true } && <FormHelperText>{errors.bloodGroup}</FormHelperText>}
                     </FormControl>
                     <TextField
                         name="age"
