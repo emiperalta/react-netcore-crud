@@ -1,4 +1,4 @@
-import api from './Api';
+import Api from './Api';
 
 export const ACTION_TYPES = {
     CREATE: 'CREATE',
@@ -8,7 +8,7 @@ export const ACTION_TYPES = {
 }
 
 export const getAll = () => dispatch => {
-    api.CandidateAPI().getAll()
+    Api().getAll()
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.GET_ALL,
