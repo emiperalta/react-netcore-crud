@@ -1,5 +1,5 @@
 import React from 'react';
-import { store } from './actions/Store';
+import store from './actions/Store';
 import { Provider } from 'react-redux';
 import Candidates from './components/Candidates';
 

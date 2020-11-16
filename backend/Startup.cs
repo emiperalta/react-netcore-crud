@@ -30,6 +30,7 @@ namespace backend
             services.AddControllers();
             services.AddDbContext<DonationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +40,11 @@ namespace backend
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(options => 
+                options.WithOrigins("http://localhost:3000/")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
 
             app.UseHttpsRedirection();
 

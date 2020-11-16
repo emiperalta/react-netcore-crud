@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/CandidateActions';
 
-const Candidates = () => {
+const Candidates = props => {
+    useEffect(() => {
+        props.getAllCandidates()
+    }, []);
+
     return(
         <div>
-            Candidates
+            <h1>Candidates</h1>
         </div>
     );
 };
 
-export default Candidates;
+const mapStateToProps = state => ({ CandidateList: state.CandidateReducer.list });
+
+const mapActionToProps = { getAllCandidates: actions.getAll }
+
+export default connect(mapStateToProps, mapActionToProps)(Candidates);
