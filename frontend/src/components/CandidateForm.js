@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
 import { Grid, TextField, withStyles, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from '@material-ui/core';
-import '../index.css';
 
 const styles = theme => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            minWidth: 200
-        },
-        [theme.breakpoints.down('sm')]: {
-            '& .MuiTextField-root': {
-                minWidth: "100%"
-            }
+            marginLeft: 0,
+            minWidth: "100%"
         }
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 200,
-        [theme.breakpoints.down('sm')]: {
-            minWidth: "100%"
-        }
+        marginLeft: 0,
+        minWidth: "100%"
     },
     smMargin: {
         margin: theme.spacing(1)
@@ -86,8 +79,9 @@ const CandidateForm = ({ classes, ...props }) => {
 
     return (
         <form autoComplete="off" noValidate className={classes.root} onSubmit={submitHandler}>
-            <Grid container>
-                <Grid item xs={12} sm={12}>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+
                     <TextField
                         name="fullName"
                         label="Full Name"
@@ -96,6 +90,7 @@ const CandidateForm = ({ classes, ...props }) => {
                         onChange={inputTextHandler}
                         {...(errors.fullName && { error: true, helperText: errors.fullName })}
                     />
+
                     <TextField
                         name="email"
                         label="Email"
@@ -104,6 +99,7 @@ const CandidateForm = ({ classes, ...props }) => {
                         onChange={inputTextHandler}
                         {...(errors.email && { error: true, helperText: errors.email })}
                     />
+
                     <TextField
                         name="mobile"
                         label="Mobile"
@@ -112,9 +108,13 @@ const CandidateForm = ({ classes, ...props }) => {
                         onChange={inputTextHandler}
                         {...(errors.mobile && { error: true, helperText: errors.mobile })}
                     />
+
+                </Grid>
+                <Grid item xs={6}>
+
                     <FormControl
                         variant="outlined"
-                        className={classes.formControl}
+                        className={classes.formControl}                        
                         {...(errors.bloodGroup && { error: true })}
                     >
                         <InputLabel>Blood Group</InputLabel>
@@ -135,6 +135,7 @@ const CandidateForm = ({ classes, ...props }) => {
                         </Select>
                         {{ error: true } && <FormHelperText>{errors.bloodGroup}</FormHelperText>}
                     </FormControl>
+
                     <TextField
                         name="age"
                         label="Age"
@@ -142,6 +143,7 @@ const CandidateForm = ({ classes, ...props }) => {
                         value={inputText.age}
                         onChange={inputTextHandler}
                     />
+
                     <TextField
                         name="address"
                         label="Address"
@@ -149,25 +151,29 @@ const CandidateForm = ({ classes, ...props }) => {
                         value={inputText.address}
                         onChange={inputTextHandler}
                     />
-                    <div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            className={classes.smMargin}
-                        >
-                            Submit
-                        </Button>
-                        <Button
-                            variant="contained"
-                            className={classes.smMargin}
-                            onClick={resetHandler}
-                        >
-                            Reset
-                        </Button>
-                    </div>
+
                 </Grid>
             </Grid>
+            <div>
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className={classes.smMargin}
+                >
+                    Submit
+                </Button>
+
+                <Button
+                    variant="contained"
+                    className={classes.smMargin}
+                    onClick={resetHandler}
+                >
+                    Reset
+                </Button>
+                
+            </div>
         </form>
     );
 };

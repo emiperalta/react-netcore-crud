@@ -7,8 +7,8 @@ import { Grid, Paper, TableContainer, Table, TableHead, TableBody, TableRow, Tab
 const styles = theme => ({
 	root: {
 		"& .MuiTableCell-head": {
-			fontSize: "0.9rem"
-		}	
+			fontSize: "0.95rem"
+		}
 	},
 	paper: {
 		margin: theme.spacing(2),
@@ -22,11 +22,15 @@ const Candidates = ({ classes, ...props }) => {
 	}, []);
 
 	return (
-		<Paper className={classes.paper} elevation={3}>
-			<Grid container >
-				<Grid item xs={12} sm={12}>
-					<CandidateForm />
+		<div>
+			<Paper className={classes.paper} elevation={3}>
+				<Grid container >
+					<Grid item xs={12}>
+						<CandidateForm />
+					</Grid>
 				</Grid>
+			</Paper>
+			<Paper className={classes.paper} elevation={3}>
 				<Grid item xs={12}>
 					<TableContainer>
 						<Table>
@@ -55,8 +59,8 @@ const Candidates = ({ classes, ...props }) => {
 						</Table>
 					</TableContainer>
 				</Grid>
-			</Grid>
-		</Paper>
+			</Paper>
+		</div>
 	);
 };
 
