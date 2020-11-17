@@ -31,8 +31,16 @@ const Candidates = ({ classes, ...props }) => {
 
 	const [currentId, setCurrentId] = useState(0);
 
+	const deleteHandler = id => {
+		if (id != 0)
+			props.deleteCandidate(id);		
+	}
+ 
 	return (
 		<div>
+			<Paper className={classes.paper} elevation={3}>
+				<p style={{textAlign:'center',fontStyle:'italic',fontWeight:'bolder',fontSize:24}}>Candidates for Donation</p>
+			</Paper>
 			<Paper className={classes.paper} elevation={3}>
 				<Grid container >
 					<Grid item xs={12}>
@@ -68,11 +76,14 @@ const Candidates = ({ classes, ...props }) => {
 														<Button>
 															<EditIcon
 																color="primary"
-																onClick={() => { setCurrentId(candidate.id) }}
+																onClick={ () => { setCurrentId(candidate.id) } }
 															/>
 														</Button>
 														<Button>
-															<DeleteIcon color="secondary" />
+															<DeleteIcon 
+																color="secondary" 
+																onClick={ () => { deleteHandler(candidate.id) } }
+															/>
 														</Button>
 													</ButtonGroup>
 												</TableCell>
@@ -91,6 +102,9 @@ const Candidates = ({ classes, ...props }) => {
 
 const mapStateToProps = state => ({ CandidateList: state.CandidateReducer.list });
 
-const mapActionToProps = { getAllCandidates: actions.getAll };
+const mapActionToProps = { 
+	getAllCandidates: actions.getAll,
+	deleteCandidate: actions.Delete
+};
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Candidates));

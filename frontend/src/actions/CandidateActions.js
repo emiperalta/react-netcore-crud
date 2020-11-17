@@ -36,7 +36,7 @@ const formatData = data => ({
     age: parseInt(data.age ? data.age : 0) //in case of empty field, 0 instead of ''
 });
 
-export const create = (data, onSuccess) =>  dispatch => {
+export const create = (data) =>  dispatch => {
     data = formatData(data);
     Api().create(data)
         .then(response => {
@@ -44,12 +44,11 @@ export const create = (data, onSuccess) =>  dispatch => {
                 type: ACTION_TYPES.CREATE,
                 payload: response.data
             })
-            onSuccess()
         })
         .catch(err => console.log(err));
 }
 
-export const update = (id, data, onSuccess) => dispatch => {
+export const update = (id, data) => dispatch => {
     data = formatData(data);
     Api().update(id, data)
         .then(response => {
@@ -57,19 +56,17 @@ export const update = (id, data, onSuccess) => dispatch => {
                 type: ACTION_TYPES.UPDATE,
                 payload: { id, ...data } //because api return NoContent()
             })
-            onSuccess()
         })
         .catch(err => console.log(err));
 }
 
-export const Delete = (id, onSuccess) => dispatch => {
+export const Delete = (id) => dispatch => {
     Api().delete(id)
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.DELETE,
                 payload: id
             })
-            onSuccess()
         })
         .catch(err => console.log(err));
 }

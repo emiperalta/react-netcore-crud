@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/CandidateActions';
 import { Grid, TextField, withStyles, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from '@material-ui/core';
- 
+
 const styles = theme => ({
     root: {
         '& .MuiTextField-root': {
@@ -36,10 +36,13 @@ const CandidateForm = ({ classes, ...props }) => {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        if (props.currentId != 0)
+        if (props.currentId != 0) {
             setInputText({
                 ...props.CandidateList.find(x => x.id == props.currentId)
-            })
+            });
+
+            setErrors({});
+        }
     }, [props.currentId]);
 
     const inputTextHandler = e => {
@@ -59,20 +62,26 @@ const CandidateForm = ({ classes, ...props }) => {
 
         if (validate()) {
             if (props.currentId == 0)
-                props.createCandidate(inputText, () => { window.alert('Inserted!') });
+                props.createCandidate(inputText);
             else
-                props.updateCandidate(props.currentId, inputText, () => { window.alert('Updated!') })
+                props.updateCandidate(props.currentId, inputText);
         }
+
+        resetHandler();
     }
 
-    const resetHandler = e => {
-        e.preventDefault();
-        
-        setInputText(initialState);
+    const resetHandler = () => {
+        setInputText({
+            ...initialState
+        });
+
+        setErrors({});
+
+        props.setCurrentId(0);
     }
 
     const validate = (fieldValues = inputText) => {
-        let temp = {};
+        let temp = {...errors};
 
         if ('fullName' in fieldValues)
             temp.fullName = fieldValues.fullName ? '' : 'This field is required.';

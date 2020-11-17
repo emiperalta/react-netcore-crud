@@ -12,12 +12,6 @@ export const CandidateReducer = (state = initialState, action) => {
                 list: [...action.payload] 
             }
         
-        case ACTION_TYPES.GET_BY_ID:
-            return {
-                ...state,
-                list: action.payload
-            }
-        
         case ACTION_TYPES.CREATE:
             return {
                 ...state,
