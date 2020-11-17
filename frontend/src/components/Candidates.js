@@ -66,6 +66,6 @@ const Candidates = ({ classes, ...props }) => {
 
 const mapStateToProps = state => ({ CandidateList: state.CandidateReducer.list });
 
-const mapActionToProps = { getAllCandidates: actions.getAll }
+const mapActionToProps = { getAllCandidates: actions.getAll };
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Candidates));

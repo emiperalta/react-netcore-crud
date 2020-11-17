@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/CandidateActions';
 import { Grid, TextField, withStyles, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from '@material-ui/core';
 
 const styles = theme => ({
@@ -48,7 +50,7 @@ const CandidateForm = ({ classes, ...props }) => {
     const submitHandler = e => {
         e.preventDefault();
         if (validate()) {
-            console.log('Success')
+            props.createCandidate(inputText, () => { window.alert('Inserted!') })
         } else {
             console.log('Error!')
         }
@@ -114,7 +116,7 @@ const CandidateForm = ({ classes, ...props }) => {
 
                     <FormControl
                         variant="outlined"
-                        className={classes.formControl}                        
+                        className={classes.formControl}
                         {...(errors.bloodGroup && { error: true })}
                     >
                         <InputLabel>Blood Group</InputLabel>
@@ -172,10 +174,17 @@ const CandidateForm = ({ classes, ...props }) => {
                 >
                     Reset
                 </Button>
-                
+
             </div>
         </form>
     );
 };
 
-export default withStyles(styles)(CandidateForm);
+const mapStateToProps = state => ({ CandidateList: state.CandidateReducer.list });
+
+const mapActionToProps = {
+    createCandidate: actions.create,
+    updateCandidate: actions.update
+}
+
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(CandidateForm));
