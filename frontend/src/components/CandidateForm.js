@@ -32,10 +32,15 @@ const CandidateForm = ({ classes, ...props }) => {
 
 
     const inputTextHandler = e => {
+        const { name, value } = e.target;
+        const fieldValue = { [name]: value };
+
         setInputText({
             ...inputText,
-            [e.target.name]: e.target.value
+            ...fieldValue
         })
+
+        validate(fieldValue); //real time validation
     }
 
     const submitHandler = e => {
@@ -52,15 +57,22 @@ const CandidateForm = ({ classes, ...props }) => {
         setInputText(initialState);
     }
 
-    const validate = () => { 
+    const validate = (fieldValues = inputText) => { 
         let temp = {};
-        temp.fullName = inputText.fullName ? '' : 'This field is required.';
-        temp.mobile = inputText.mobile ? '' : 'This field is required.';
-        temp.bloodGroup = inputText.bloodGroup ? '' : 'This field is required.';
-        temp.email = (/^$|.+@.+..+/).test(inputText.email) ? '' : 'Email is not valid';
+
+        if ('fullName' in fieldValues)
+            temp.fullName = fieldValues.fullName ? '' : 'This field is required.';
+        if ('mobile' in fieldValues)
+            temp.mobile = fieldValues.mobile ? '' : 'This field is required.';
+        if ('bloodGroup' in fieldValues)
+            temp.bloodGroup = fieldValues.bloodGroup ? '' : 'This field is required.';
+        if ('email' in fieldValues)
+            temp.email = (/^$|.+@.+..+/).test(fieldValues.email) ? '' : 'Email is not valid';
+
         setErrors({ ...temp });
 
-        return Object.values(temp).every(x => x === '');
+        if (fieldValues === inputText)
+            return Object.values(temp).every(x => x === '');
     }
 
     return (
@@ -76,20 +88,20 @@ const CandidateForm = ({ classes, ...props }) => {
                         {...(errors.fullName && { error: true, helperText: errors.fullName })}
                     />
                     <TextField
-                        name="mobile"
-                        label="Mobile"
-                        variant="outlined"
-                        value={inputText.mobile}
-                        onChange={inputTextHandler}
-                        {...(errors.mobile && { error: true, helperText: errors.mobile })}
-                    />
-                    <TextField
                         name="email"
                         label="Email"
                         variant="outlined"
                         value={inputText.email}
                         onChange={inputTextHandler}
                         {...(errors.email && { error: true, helperText: errors.email })}
+                    />                    
+                    <TextField
+                        name="mobile"
+                        label="Mobile"
+                        variant="outlined"
+                        value={inputText.mobile}
+                        onChange={inputTextHandler}
+                        {...(errors.mobile && { error: true, helperText: errors.mobile })}
                     />
                 </Grid>
                 <Grid item xs={6}>

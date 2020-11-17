@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import CandidateForm from './CandidateForm';
 import { connect } from 'react-redux';
 import * as actions from '../actions/CandidateActions';
