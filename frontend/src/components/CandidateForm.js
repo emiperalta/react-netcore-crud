@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+/* eslint-disable eqeqeq */
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/CandidateActions';
 import { Grid, TextField, withStyles, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from '@material-ui/core';
-
+ 
 const styles = theme => ({
     root: {
         '& .MuiTextField-root': {
@@ -34,6 +35,12 @@ const CandidateForm = ({ classes, ...props }) => {
     const [inputText, setInputText] = useState(initialState);
     const [errors, setErrors] = useState({});
 
+    useEffect(() => {
+        if (props.currentId != 0)
+            setInputText({
+                ...props.CandidateList.find(x => x.id == props.currentId)
+            })
+    }, [props.currentId]);
 
     const inputTextHandler = e => {
         const { name, value } = e.target;
@@ -49,15 +56,18 @@ const CandidateForm = ({ classes, ...props }) => {
 
     const submitHandler = e => {
         e.preventDefault();
+
         if (validate()) {
-            props.createCandidate(inputText, () => { window.alert('Inserted!') })
-        } else {
-            console.log('Error!')
+            if (props.currentId == 0)
+                props.createCandidate(inputText, () => { window.alert('Inserted!') });
+            else
+                props.updateCandidate(props.currentId, inputText, () => { window.alert('Updated!') })
         }
     }
 
     const resetHandler = e => {
         e.preventDefault();
+        
         setInputText(initialState);
     }
 

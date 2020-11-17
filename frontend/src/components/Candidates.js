@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CandidateForm from './CandidateForm';
 import { connect } from 'react-redux';
 import * as actions from '../actions/CandidateActions';
-import { Grid, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, withStyles } from '@material-ui/core';
+import { Grid, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, withStyles, ButtonGroup, Button } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = theme => ({
 	root: {
@@ -13,6 +15,12 @@ const styles = theme => ({
 	paper: {
 		margin: theme.spacing(2),
 		padding: theme.spacing(2)
+	},
+	paperList: {
+		[theme.breakpoints.up('md')]: {
+			margin: theme.spacing(2),
+			padding: theme.spacing(2),
+		}
 	}
 });
 
@@ -21,36 +29,53 @@ const Candidates = ({ classes, ...props }) => {
 		props.getAllCandidates()
 	}, []);
 
+	const [currentId, setCurrentId] = useState(0);
+
 	return (
 		<div>
 			<Paper className={classes.paper} elevation={3}>
 				<Grid container >
 					<Grid item xs={12}>
-						<CandidateForm />
+						<CandidateForm
+							currentId={currentId}
+							setCurrentId={setCurrentId}
+						/>
 					</Grid>
 				</Grid>
 			</Paper>
-			<Paper className={classes.paper} elevation={3}>
+			<Paper className={classes.paperList} elevation={3}>
 				<Grid item xs={12}>
 					<TableContainer>
 						<Table>
 							<TableHead className={classes.root}>
 								<TableRow>
-									<TableCell>Name</TableCell>
-									<TableCell>Mobile</TableCell>
-									<TableCell>Blood Group</TableCell>
-									<TableCell>Actions</TableCell>
+									<TableCell style={{ textAlign: 'center' }}>Name</TableCell>
+									<TableCell style={{ textAlign: 'center' }}>Mobile</TableCell>
+									<TableCell style={{ textAlign: 'center' }}>Blood Group</TableCell>
+									<TableCell style={{ textAlign: 'center' }}>Actions</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
 								{
 									props.CandidateList.map((candidate) => {
 										return (
-											<TableRow key={candidate.id} hover>
-												<TableCell>{candidate.fullName}</TableCell>
-												<TableCell>{candidate.mobile}</TableCell>
-												<TableCell>{candidate.bloodGroup}</TableCell>
-												<TableCell>edit | delete</TableCell>
+											<TableRow key={candidate.id} hover >
+												<TableCell style={{ textAlign: 'center' }}>{candidate.fullName}</TableCell>
+												<TableCell style={{ textAlign: 'center' }}>{candidate.mobile}</TableCell>
+												<TableCell style={{ textAlign: 'center' }}>{candidate.bloodGroup}</TableCell>
+												<TableCell style={{ textAlign: 'center' }}>
+													<ButtonGroup variant="text">
+														<Button>
+															<EditIcon
+																color="primary"
+																onClick={() => { setCurrentId(candidate.id) }}
+															/>
+														</Button>
+														<Button>
+															<DeleteIcon color="secondary" />
+														</Button>
+													</ButtonGroup>
+												</TableCell>
 											</TableRow>
 										)
 									})
