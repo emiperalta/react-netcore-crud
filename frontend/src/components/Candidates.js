@@ -6,9 +6,9 @@ import { Grid, Paper, TableContainer, Table, TableHead, TableBody, TableRow, Tab
 
 const styles = theme => ({
 	root: {
-		"& .MuiTableCell-head":{
-			fontSize: "1.25rem"
-		}
+		"& .MuiTableCell-head": {
+			fontSize: "0.9rem"
+		}	
 	},
 	paper: {
 		margin: theme.spacing(2),
@@ -16,18 +16,18 @@ const styles = theme => ({
 	}
 });
 
-const Candidates = ({ classes, ...props}) => {
+const Candidates = ({ classes, ...props }) => {
 	useEffect(() => {
 		props.getAllCandidates()
 	}, []);
 
 	return (
 		<Paper className={classes.paper} elevation={3}>
-			<Grid container>
-				<Grid item xs={6}>
+			<Grid container >
+				<Grid item xs={12} sm={12}>
 					<CandidateForm />
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12}>
 					<TableContainer>
 						<Table>
 							<TableHead className={classes.root}>

@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { Grid, TextField, withStyles, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from '@material-ui/core';
+import '../index.css';
 
 const styles = theme => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
             minWidth: 200
+        },
+        [theme.breakpoints.down('sm')]: {
+            '& .MuiTextField-root': {
+                minWidth: "100%"
+            }
         }
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 200
+        minWidth: 200,
+        [theme.breakpoints.down('sm')]: {
+            minWidth: "100%"
+        }
     },
     smMargin: {
         margin: theme.spacing(1)
@@ -57,7 +66,7 @@ const CandidateForm = ({ classes, ...props }) => {
         setInputText(initialState);
     }
 
-    const validate = (fieldValues = inputText) => { 
+    const validate = (fieldValues = inputText) => {
         let temp = {};
 
         if ('fullName' in fieldValues)
@@ -78,7 +87,7 @@ const CandidateForm = ({ classes, ...props }) => {
     return (
         <form autoComplete="off" noValidate className={classes.root} onSubmit={submitHandler}>
             <Grid container>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={12}>
                     <TextField
                         name="fullName"
                         label="Full Name"
@@ -94,7 +103,7 @@ const CandidateForm = ({ classes, ...props }) => {
                         value={inputText.email}
                         onChange={inputTextHandler}
                         {...(errors.email && { error: true, helperText: errors.email })}
-                    />                    
+                    />
                     <TextField
                         name="mobile"
                         label="Mobile"
@@ -103,10 +112,8 @@ const CandidateForm = ({ classes, ...props }) => {
                         onChange={inputTextHandler}
                         {...(errors.mobile && { error: true, helperText: errors.mobile })}
                     />
-                </Grid>
-                <Grid item xs={6}>
-                    <FormControl 
-                        variant="outlined" 
+                    <FormControl
+                        variant="outlined"
                         className={classes.formControl}
                         {...(errors.bloodGroup && { error: true })}
                     >
